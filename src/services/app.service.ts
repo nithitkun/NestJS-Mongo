@@ -4,18 +4,22 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectModel('Cat') private catTable: Model<any>) {}
+  constructor(@InjectModel('Member') private memberTable: Model<any>) {}
 
   async getItems() {
-    return await this.catTable.find();
+    return await this.memberTable.find();
   }
 
   createItem() {
-    const model = new this.catTable({
-      name: new Date().toString(),
-      age: Math.random(),
-      sex: 'Male',
+    this.memberTable.create({
+        firstname: 'firstname',
+        lastname: 'lastname',
+        email: 'email@example.',
+        password: 'password',
+        id: 1,
+        position: 'posted',
+        image: 'image',
+        role: 2,
     });
-    model.save();
   }
 }
