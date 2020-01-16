@@ -7,11 +7,8 @@ export class AppController {
 
     @Get()
     root() {
-        return this.appService.getItems();
-    }
-
-    @Post()
-    post(): void {
-        this.appService.createItem();
+        return {
+            message: 'hello Nodejs',
+        };
     }
 }

@@ -4,7 +4,6 @@ export interface IAccount {
     lastname: string;
     email: string;
     password: string;
-
     id?: any;
     position?: string;
     image?: string;
