@@ -8,7 +8,7 @@ export class AppController {
     @Get()
     root() {
         return {
-            message: 'hello Nodejs',
-        };
+            Message: 'Hello Node js web api'
+        }
     }
 }

@@ -4,6 +4,7 @@ export interface IAccount {
     lastname: string;
     email: string;
     password: string;
+
     id?: any;
     position?: string;
     image?: string;
@@ -60,5 +61,5 @@ export interface IMember {
 export enum RoleAccount {
     Member = 1,
     Employee,
-    Admin,
+    Admin
 }
