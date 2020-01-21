@@ -15,6 +15,7 @@ export class MemberController {
     @Get('data')
     getUserLogin(@Req() req: Request) {
         const userLogin: IMemberDocument = req.user as any;
+        userLogin.image = userLogin.image ? 'https://localhost:3000' + userLogin.image : '';
         userLogin.password = '';
         return userLogin;
     }
