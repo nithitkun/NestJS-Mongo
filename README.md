@@ -1,4 +1,4 @@
-# nodejs-member-workshop
+# nodejs-nestjs-workshop
 
 ## Description
 
