@@ -1,5 +1,10 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { IProfile, IChangePassword } from 'interfaces/app.interface';
+import {
+  IProfile,
+  IChangePassword,
+  IMember,
+  ISearch,
+} from 'interfaces/app.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IMemberDocument } from '../interfaces/member.interface';
@@ -13,6 +18,63 @@ export class MemberService {
   constructor(
     @InjectModel('Member') private MemberCollection: Model<IMemberDocument>,
   ) {}
+
+  // แสดงข้อมูลสมาชิก
+  async getMemberItems(searchOptions: ISearch): Promise<IMember> {
+    let queryItem = () => this.MemberCollection.find({}, { image: false });
+
+    // ค้นหาข้อมูลสมาชิก
+    if (searchOptions.searchText && searchOptions.searchType) {
+      const text = searchOptions.searchText;
+      const type = searchOptions.searchType;
+      const condition = {};
+      switch (type) {
+        case 'role':
+          condition[type] = text;
+          queryItem = () =>
+            this.MemberCollection.find(condition, { image: false });
+          break;
+        case 'updated':
+          // queryItem = () =>
+          //   this.MemberCollection.find({}, { image: false })
+          //     .where('updated')
+          //     .gt(text['from'])
+          //     .lt(
+          //       text['to'],
+          //     );
+          this.MemberCollection.find(
+            {
+              updated: {
+                $gt: text['from'],
+                $lt: text['to'],
+              },
+            },
+            { image: false },
+          );
+          break;
+        default:
+          condition[type] = new RegExp(text, 'i');
+          queryItem = () =>
+            this.MemberCollection.find(condition, { image: false });
+          break;
+      }
+    }
+
+    // ค้นหาและแบ่งหน้า page
+    const items = await queryItem()
+      .sort({ updated: -1 })
+      .skip((searchOptions.startPage - 1) * searchOptions.limitPage)
+      .limit(searchOptions.limitPage);
+
+    // หาผลรวมของหน้า page ทั้งหมด
+    const totalItems = await queryItem().count({});
+
+    return {
+      items,
+      totalItems,
+    };
+  }
+
   // แก้ไข password
   async onChangePassword(memberID: any, body: IChangePassword) {
     const memberItem = await this.MemberCollection.findById(memberID);
