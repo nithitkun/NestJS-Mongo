@@ -5,6 +5,7 @@ import { IMemberDocument } from 'interfaces/member.interface';
 import { ProfileModel } from '../models/profile.model';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { MemberService } from 'services/member.services';
+import { ChangePasswordModel } from 'models/password.model';
 
 @Controller('api/member')
 @UseGuards(AuthGuard('jwt'))
@@ -14,7 +15,7 @@ export class MemberController {
     @Get('data')
     getUserLogin(@Req() req: Request) {
         const userLogin: IMemberDocument = req.user as any;
-        userLogin.image = userLogin.image ? 'http://localhost:3000' + userLogin.image : '';
+     //   userLogin.image = userLogin.image ? 'http://localhost:3000' + userLogin.image : '';
         userLogin.password = '';
         return userLogin;
     }
@@ -22,6 +23,11 @@ export class MemberController {
     @Post('profile')
     updateProfile(@Req() req: Request, @Body(new ValidationPipe()) body: ProfileModel) {
         return this.service.onUpdateProfile(req.user.id, body);
+    }
+
+    @Post('change-password')
+    changePassword(@Req() req: Request, @Body(new ValidationPipe()) body: ChangePasswordModel) {
+        return this.service.onChangePassword(req.user.id, body);
     }
 
 }

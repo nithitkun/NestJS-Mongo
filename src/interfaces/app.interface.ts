@@ -41,6 +41,7 @@ export interface IProfile {
 export interface IChangePassword {
     old_pass: string;
     new_pass: string;
+    cnew_pass: string;
 }
 
 // CRUD หน้า ค้นหาข้อมูล
