@@ -8,6 +8,7 @@ import { DBAuthenService, DBAuthenStrategy } from './services/db-authen.service'
 import { accessTokenSchema } from './schemas/access-token.schema';
 import { JwtAuthenService, JwtAuthenStrategy } from './services/jwt-authen.service';
 import { MemberController } from './controllers/member.controller';
+import { MemberService } from 'services/member.services';
 
 @Module({
     imports: [
@@ -20,7 +21,7 @@ import { MemberController } from './controllers/member.controller';
     controllers: [
         AppController,
         AccountController,
-        MemberController
+        MemberController,
     ],
     providers: [
         AppService,
@@ -28,6 +29,7 @@ import { MemberController } from './controllers/member.controller';
         DBAuthenStrategy,
         JwtAuthenService,
         JwtAuthenStrategy,
+        MemberService,
     ]
 })
 export class AppModule { }

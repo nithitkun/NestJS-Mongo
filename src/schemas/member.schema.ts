@@ -9,10 +9,10 @@ export const memberSchema = new Schema({
     role: Number,
     created: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     updated: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     }
 }, { toObject: { virtuals: true } });
