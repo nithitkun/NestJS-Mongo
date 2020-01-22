@@ -19,6 +19,17 @@ export class MemberService {
     @InjectModel('Member') private MemberCollection: Model<IMemberDocument>,
   ) {}
 
+  // เพิ่มข้อมูลสมาชิก
+  async createMemberItem(body: IAccount) {
+    const count = await this.MemberCollection.count({ email: body.email });
+    if (count > 0) throw new BadRequestException('มีอีเมลล์นี้ในระบบแล้ว');
+    body.image = body.image || '';
+    body.password = generate(body.password);
+    const createMember = await this.MemberCollection.create(body);
+    createMember.password = '';
+    return createMember;
+  }
+
   // แสดงข้อมูลสมาชิก
   async getMemberItems(searchOptions: ISearch): Promise<IMember> {
     let queryItem = () => this.MemberCollection.find({}, { image: false });
