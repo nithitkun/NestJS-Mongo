@@ -19,6 +19,51 @@ export class MemberService {
     @InjectModel('Member') private MemberCollection: Model<IMemberDocument>,
   ) {}
 
+  // แก้ไขข้อมูลสมาชิก
+  async updateMemberItem(memberID: any, body: IAccount) {
+    const memberUpdate = await this.MemberCollection.findById(memberID);
+    if (!memberUpdate) throw new BadRequestException('ไม่มีข้อมูลนี้ในระบบ');
+    try {
+      memberUpdate.firstname = body.firstname;
+      memberUpdate.lastname = body.lastname;
+      memberUpdate.image = body.image || '';
+      memberUpdate.position = body.position;
+      memberUpdate.email = body.email;
+      memberUpdate.role = body.role;
+      memberUpdate.updated = new Date();
+
+      if (body.password && body.password.trim() !== '') {
+        memberUpdate.password = generate(body.password);
+      }
+
+      const memberItemCount = await this.MemberCollection.count({
+        email: body.email,
+      });
+      if (memberUpdate.email !== body.email && memberItemCount > 0)
+        throw new BadRequestException('มีอีเมลล์นี้ในระบบแล้ว');
+      const updated = await this.MemberCollection.update(
+        { _id: memberID },
+        memberUpdate,
+      );
+      if (updated.ok) {
+        return await this.MemberCollection.findById(memberID);
+      } else {
+        throw new BadRequestException('ไม่สามารถแก้ไขข้อมูลได้');
+      }
+      return updated;
+    } catch (err) {
+      throw new BadRequestException(err.message);
+    }
+  }
+
+  // แสดงข้อมูลสมาชิกจาก ID
+  async getMemberItem(memberID: any) {
+    const memberItem = await this.MemberCollection.findById(memberID, {
+      password: false,
+    });
+    return memberItem;
+  }
+
   // เพิ่มข้อมูลสมาชิก
   async createMemberItem(body: IAccount) {
     const count = await this.MemberCollection.count({ email: body.email });

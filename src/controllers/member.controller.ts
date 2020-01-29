@@ -6,6 +6,9 @@ import {
   Post,
   Body,
   Query,
+  Param,
+  Put,
+  Delete,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -15,7 +18,7 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { MemberService } from 'services/member.services';
 import { ChangePasswordModel } from 'models/password.model';
 import { SearchModel } from 'models/search.model';
-import { MemberModel } from 'models/member.model';
+import { ParamMembership, UpdateMemberModel, CreateMemberModel } from 'models/member.model';
 
 @Controller('api/member')
 @UseGuards(AuthGuard('jwt'))
@@ -61,8 +64,19 @@ export class MemberController {
   @Post('member')
   createMember(
     @Body(new ValidationPipe())
-    body: MemberModel,
+    body: CreateMemberModel,
   ) {
       return this.service.createMemberItem(body);
   }
+
+  @Get(':id')
+  showMemberById(@Param(new ValidationPipe()) param: ParamMembership){
+    return this.service.getMemberItem(param.id);
+  }
+
+  @Put(':id')
+  updateMemberById(@Param(new ValidationPipe()) param: ParamMembership, @Body(new ValidationPipe()) body: UpdateMemberModel){
+    return this.service.updateMemberItem(param.id, body);
+  }
+
 }

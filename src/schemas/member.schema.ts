@@ -2,7 +2,10 @@ import { Schema } from 'mongoose';
 export const memberSchema = new Schema({
     firstname: String,
     lastname: String,
-    email: String,
+    email: {
+        type: String,
+        unique: true,
+    },
     password: String,
     position: String,
     image: String,
