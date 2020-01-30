@@ -52,3 +52,24 @@ export function IsComparePassword(property: string, validationOptions?: Validati
         });
     };
 }
+
+export function IsRoleAccount(validationOptions?: ValidationOptions) {
+    return function (object: Object, propertyName: string) {
+        if (validationOptions == undefined) {
+            validationOptions = {};
+            validationOptions.message = 'role account do not match.';
+        }
+        registerDecorator({
+            name: "IsRoleAccount",
+            target: object.constructor,
+            propertyName: propertyName,
+            constraints: [],
+            options: validationOptions,
+            validator: {
+                validate(value: any, args: ValidationArguments) {
+                    return false;
+                }
+            }
+        });
+    };
+}

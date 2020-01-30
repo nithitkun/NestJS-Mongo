@@ -6,6 +6,7 @@ import {
   IsMongoId,
   ValidateIf,
 } from 'class-validator';
+import { IsRoleAccount } from 'pipes/validation.pipe';
 
 export class CreateMemberModel implements IAccount {
   @IsNotEmpty() firstname: string;
@@ -24,6 +25,8 @@ export class CreateMemberModel implements IAccount {
       `(${RoleAccount.Admin}|${RoleAccount.Employee}${RoleAccount.Member}){1}`,
     ),
   )
+  @IsNotEmpty()
+  @IsRoleAccount()
   role?: RoleAccount;
 
   id?: any;
@@ -42,7 +45,10 @@ export class UpdateMemberModel implements IAccount {
   password: string;
   @IsNotEmpty() position?: string;
   image?: string;
-  @IsNotEmpty() role?: RoleAccount;
+
+  @IsNotEmpty()
+  @IsRoleAccount()
+  role?: RoleAccount;
 
   id?: any;
   created?: Date;

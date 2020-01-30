@@ -19,6 +19,12 @@ export class MemberService {
     @InjectModel('Member') private MemberCollection: Model<IMemberDocument>,
   ) {}
 
+  //ลบข้อมูลสมาชิก
+ async deleteMemberItem(memberID: any){
+   return await this.MemberCollection.remove({_id: memberID});
+
+ }
+
   // แก้ไขข้อมูลสมาชิก
   async updateMemberItem(memberID: any, body: IAccount) {
     const memberUpdate = await this.MemberCollection.findById(memberID);

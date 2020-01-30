@@ -79,4 +79,9 @@ export class MemberController {
     return this.service.updateMemberItem(param.id, body);
   }
 
+  @Delete(':id')
+  delete(@Param(new ValidationPipe()) param: ParamMembership){
+    return this.service.deleteMemberItem(param.id);
+  }
+
 }
