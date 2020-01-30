@@ -19,6 +19,8 @@ import { MemberService } from 'services/member.services';
 import { ChangePasswordModel } from 'models/password.model';
 import { SearchModel } from 'models/search.model';
 import { ParamMembership, UpdateMemberModel, CreateMemberModel } from 'models/member.model';
+import { RoleGuard } from 'guards/role.guard';
+import { RoleAccount } from 'interfaces/app.interface';
 
 @Controller('api/member')
 @UseGuards(AuthGuard('jwt'))
@@ -52,7 +54,8 @@ export class MemberController {
   }
 
   @Get() // แสดงข้อมูลสมาชิก
-  showMembes(
+  @UseGuards(new RoleGuard(RoleAccount.Admin, RoleAccount.Employee))
+  showMember(
     @Query(new ValidationPipe())
     query: SearchModel,
   ) {
@@ -70,16 +73,19 @@ export class MemberController {
   }
 
   @Get(':id')
+  @UseGuards(new RoleGuard(RoleAccount.Admin))
   showMemberById(@Param(new ValidationPipe()) param: ParamMembership){
     return this.service.getMemberItem(param.id);
   }
 
   @Put(':id')
+  @UseGuards(new RoleGuard(RoleAccount.Admin))
   updateMemberById(@Param(new ValidationPipe()) param: ParamMembership, @Body(new ValidationPipe()) body: UpdateMemberModel){
     return this.service.updateMemberItem(param.id, body);
   }
 
   @Delete(':id')
+  @UseGuards(new RoleGuard(RoleAccount.Admin, RoleAccount.Employee))
   delete(@Param(new ValidationPipe()) param: ParamMembership){
     return this.service.deleteMemberItem(param.id);
   }
