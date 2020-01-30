@@ -1,4 +1,3 @@
-import { IAccount, RoleAccount } from 'interfaces/app.interface';
 import {
   IsNotEmpty,
   IsEmail,
@@ -6,7 +5,8 @@ import {
   IsMongoId,
   ValidateIf,
 } from 'class-validator';
-import { IsRoleAccount } from 'pipes/validation.pipe';
+import { IAccount, RoleAccount } from '../interfaces/app.interface';
+import { IsRoleAccount } from '../pipes/validation.pipe';
 
 export class CreateMemberModel implements IAccount {
   @IsNotEmpty() firstname: string;

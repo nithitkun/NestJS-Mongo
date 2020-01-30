@@ -12,15 +12,15 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { IMemberDocument } from 'interfaces/member.interface';
 import { ProfileModel } from '../models/profile.model';
 import { ValidationPipe } from '../pipes/validation.pipe';
-import { MemberService } from 'services/member.services';
-import { ChangePasswordModel } from 'models/password.model';
-import { SearchModel } from 'models/search.model';
-import { ParamMembership, UpdateMemberModel, CreateMemberModel } from 'models/member.model';
-import { RoleGuard } from 'guards/role.guard';
-import { RoleAccount } from 'interfaces/app.interface';
+import { RoleGuard } from '../guards/role.guard';
+import { RoleAccount } from '../interfaces/app.interface';
+import { MemberService } from '../services/member.services';
+import { IMemberDocument } from '../interfaces/member.interface';
+import { ChangePasswordModel } from '../models/password.model';
+import { SearchModel } from '../models/search.model';
+import { CreateMemberModel, ParamMembership, UpdateMemberModel } from '../models/member.model';
 
 @Controller('api/member')
 @UseGuards(AuthGuard('jwt'))

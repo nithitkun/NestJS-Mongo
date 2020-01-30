@@ -1,7 +1,7 @@
 import { CanActivate, Injectable, ExecutionContext } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { RoleAccount, IAccount } from 'interfaces/app.interface';
 import { Request } from 'express';
+import { RoleAccount, IAccount } from '../interfaces/app.interface';
 
 @Injectable()
 export class RoleGuard implements CanActivate {

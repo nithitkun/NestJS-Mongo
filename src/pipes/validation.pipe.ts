@@ -1,7 +1,6 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
 import { validate, ValidationOptions, registerDecorator, ValidationArguments } from 'class-validator';
 import { plainToClass } from 'class-transformer';
-import { RoleAccount } from 'interfaces/app.interface';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -68,7 +67,7 @@ export function IsRoleAccount(validationOptions?: ValidationOptions) {
             options: validationOptions,
             validator: {
                 validate(value: any, args: ValidationArguments) {
-                    return RoleAccount[value] !== undefined;
+                    return IsRoleAccount[value] !== undefined;
                 },
             },
         });
