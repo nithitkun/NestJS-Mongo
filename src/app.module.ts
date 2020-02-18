@@ -9,10 +9,11 @@ import { accessTokenSchema } from './schemas/access-token.schema';
 import { JwtAuthenService, JwtAuthenStrategy } from './services/jwt-authen.service';
 import { MemberController } from './controllers/member.controller';
 import { MemberService } from './services/member.services';
+import { AppEnvironment } from 'app.environment';
 
 @Module({
     imports: [
-        MongooseModule.forRoot('mongodb://localhost/member_db'),
+        MongooseModule.forRoot(AppEnvironment.dbHost),
         MongooseModule.forFeature([
             { name: 'Member', schema: memberSchema },
             { name: 'AccessToken', schema: accessTokenSchema },
