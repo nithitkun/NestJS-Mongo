@@ -1,5 +1,5 @@
 FROM node:12
-RUN mdir -p /usr/src/app
+RUN mkdir -p /usr/src/app
 # Create app directory
 WORKDIR /usr/src/app
 # Install app dependencies
